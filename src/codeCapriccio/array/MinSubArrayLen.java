@@ -1,7 +1,7 @@
 package codeCapriccio.array;
 
 public interface MinSubArrayLen {
-    // 题目描述（leetcode：209）：求最小子数组长度，要求子数组和大于target，返回子数组长度（存在）或0（不存在）
+    // 题目描述（leetcode209）：求最小子数组长度，要求子数组和大于target，返回子数组长度（存在）或0（不存在）
 
     /*
     * 解法1：暴力解法

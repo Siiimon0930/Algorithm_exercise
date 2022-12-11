@@ -1,5 +1,5 @@
 package codeCapriccio.array;
 
-public class Solution implements MinSubArrayLen{
+public class Solution implements MinSubArrayLen, SpiralMatrix{
 
 }
