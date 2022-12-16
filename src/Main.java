@@ -5,12 +5,10 @@ public class Main {
     public static void main(String[] args){
 
         MyLinkedList linkedList = new MyLinkedList();
-        linkedList.addAtHead(1);
+        linkedList.addAtTail(2);
         linkedList.addAtTail(3);
-        linkedList.addAtIndex(1,2);   //链表变为1-> 2-> 3
-        linkedList.get(1);            //返回2
-        linkedList.deleteAtIndex(1);  //现在链表是1-> 3
-        linkedList.get(1);            //返回3
+        linkedList.addAtTail(4);
+        linkedList.swapParis(linkedList.head);         //返回3
 
 
     }

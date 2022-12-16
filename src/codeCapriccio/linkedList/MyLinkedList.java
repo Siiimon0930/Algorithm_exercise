@@ -8,13 +8,13 @@ class ListNode {
     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
 
-public class MyLinkedList {
+public class MyLinkedList implements SwapPairs{
     int size;
-    ListNode head;
+    public ListNode head;
 
     public MyLinkedList(){
         this.size = 0;
-        this.head = new ListNode(0);    // 虚拟头节点
+        this.head = new ListNode(1);    // 虚拟头节点
     }
 
     // get by index
