@@ -1,15 +1,12 @@
 import codeCapriccio.array.Array;
+import codeCapriccio.hashTable.ThreeSum;
 import codeCapriccio.linkedList.MyLinkedList;
 
-public class Main {
+public class Main implements ThreeSum {
     public static void main(String[] args){
 
-        MyLinkedList linkedList = new MyLinkedList();
-        linkedList.addAtTail(2);
-        linkedList.addAtTail(3);
-        linkedList.addAtTail(4);
-        linkedList.swapParis(linkedList.head);         //返回3
-
+        int[] nums = {-1,0,1,2,-1,-4};
+        System.out.println(ThreeSum.threeSum(nums));
 
     }
 }
