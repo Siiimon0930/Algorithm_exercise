@@ -1,13 +1,12 @@
 import codeCapriccio.array.Array;
 import codeCapriccio.hashTable.ThreeSum;
 import codeCapriccio.linkedList.MyLinkedList;
+import codeCapriccio.stackAndQueue.IsValid;
 import codeCapriccio.string.StrStr;
 
-public class Main implements ThreeSum, StrStr {
+public class Main implements IsValid {
     public static void main(String[] args){
-        String s = "12345";
-        String a = "12345";
-        System.out.println(s.substring(0, 3));
-        int res = StrStr.strStr("abc", "c");
+        String s = "()";
+        System.out.println(IsValid.isValid(s));
     }
 }
