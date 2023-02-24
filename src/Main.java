@@ -1,4 +1,6 @@
 import codeCapriccio.array.Array;
+import codeCapriccio.binaryTree.GetMinimumDifference;
+import codeCapriccio.binaryTree.TreeNode;
 import codeCapriccio.hashTable.ThreeSum;
 import codeCapriccio.linkedList.MyLinkedList;
 import codeCapriccio.stackAndQueue.IsValid;
@@ -8,9 +10,9 @@ import java.util.Arrays;
 
 public class Main implements IsValid {
     public static void main(String[] args){
-        int[] s = {1, 2, 3, 4, 5};
-        int[] ss = Arrays.copyOfRange(s, 1, 5);
-        System.out.println(s);
-        System.out.println(ss);
+        Integer[] arr= {1,0,48,null,null,12,49};
+        TreeNode root = TreeNode.constructTree(arr);
+        GetMinimumDifference obj = new GetMinimumDifference();
+        obj.getMinimumDifference2(root);
     }
 }
