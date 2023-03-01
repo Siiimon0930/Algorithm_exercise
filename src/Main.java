@@ -10,9 +10,6 @@ import java.util.Arrays;
 
 public class Main implements IsValid {
     public static void main(String[] args){
-        Integer[] arr= {1,0,48,null,null,12,49};
-        TreeNode root = TreeNode.constructTree(arr);
-        GetMinimumDifference obj = new GetMinimumDifference();
-        obj.getMinimumDifference2(root);
+        System.out.println(7/2);
     }
 }
