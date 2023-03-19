@@ -1,15 +1,11 @@
-import codeCapriccio.array.Array;
-import codeCapriccio.binaryTree.GetMinimumDifference;
-import codeCapriccio.binaryTree.TreeNode;
-import codeCapriccio.hashTable.ThreeSum;
-import codeCapriccio.linkedList.MyLinkedList;
+import codeCapriccio.greedy.WeeklyGame337;
 import codeCapriccio.stackAndQueue.IsValid;
-import codeCapriccio.string.StrStr;
-
-import java.util.Arrays;
 
 public class Main implements IsValid {
     public static void main(String[] args){
-        System.out.println(7/2);
+        WeeklyGame337 weeklyGame337 = new WeeklyGame337();
+        weeklyGame337.evenOddBit(2);
+        int[] l = {2, 4, 6};
+        weeklyGame337.beautifulSubsets(l, 2);
     }
 }
