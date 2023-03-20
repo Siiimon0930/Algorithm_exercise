@@ -133,33 +133,48 @@ public class WeeklyGame337 {
         return true;
     }
 
-    // 4. 6321. 执行操作后的最大 MEX （没做出来！栈溢出）
+    // 4. 6321. 执行操作后的最大 MEX （没做出来！栈溢出，以下是网上找的题解）
     public int findSmallestInteger(int[] nums, int value) {
-        Arrays.sort(nums);
-        int MEX = findCurrentMEX(nums);
-        for (int i = 0; i < nums.length; i++) {
-            if((nums[i] - MEX) % value == 0){
-                nums[i] = MEX;
-                return findSmallestInteger(nums, value);
+        //flag只用来保存取余之后的值的个数，也就是[0,value-1]
+        int[] flag=new int[value];
+        //暂存nums[i]用
+        int temp;
+        //遍历nums数组，将每个数数都和value取余，然后存放在flag中
+        for(int i=0;i<nums.length;i++){
+            temp=nums[i];
+            //当nums[i]<0的时候，有两种情况
+            //一种是value的倍数，取余直接为0，不能和不为0的合并，因为0+value直接溢出flag数组了
+            //第二种取余不为0，直接加上value就行
+            //当nums[i]>0的时候，直接取余就好
+            //当nums[i]==0的时候，直接记录在flag中
+            if(temp<0){
+                if(temp%value==0){
+                    temp=0;
+                }else{
+                    temp=temp%value+value;
+                }
+            }else if(temp>0){
+                temp=temp%value;
+            }
+            flag[temp]++;
+        }
+        int num=0;
+        int min=Integer.MAX_VALUE;
+        //找到[0,value-1]中出现次数最少的数的频率，用min记录
+        //并使用num记录出现次数最少的数
+        for(int i=0;i<flag.length;i++){
+            if(flag[i]<min){
+                min=flag[i];
+                num=i;
             }
         }
-        return MEX;
+        //如果min为0，说明num就是我们要找的答案，否则num+value*min就是我们要找的答案
+        if(min==0){
+            return num;
+        }else{
+            return num+value*min;
+        }
+
     }
 
-    private int findCurrentMEX(int[] nums){
-        boolean flag = false;
-        for (int i = 0; i < nums.length; i++) {
-            if(nums[i] <= 0){
-                continue;
-            }else if(nums[i] == 0)
-                flag = true;
-            else {
-                if(flag == false)
-                    return 0;
-                if(nums[i] != nums[i-1] + 1)
-                    return nums[i-1] + 1;
-            }
-        }
-        return nums[nums.length-1] >= 0 ? nums[nums.length-1]+1 : 0;
-    }
 }
