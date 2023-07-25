@@ -8,11 +8,13 @@ import codeCapriccio.linkedList.ListNode;
 import codeCapriccio.linkedList.MyLinkedList;
 import codeCapriccio.stackAndQueue.IsValid;
 import codeCapriccio.string.ReverseStr;
+import codeCapriccio.string.ReverseWords;
 
 public class Main implements IsValid {
     public static void main(String[] args){
-        String s = "abcdefg";
-        ReverseStr reverseStr = new ReverseStr();
-        reverseStr.reverseStr(s, 2);
+        String s = "the sky is blue";
+        ReverseWords reverseWords = new ReverseWords();
+        reverseWords.reverseWords(s);
+        System.out.println(s.substring(0, 2));
     }
 }
