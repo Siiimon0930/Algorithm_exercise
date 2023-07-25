@@ -7,10 +7,12 @@ import codeCapriccio.hashTable.IsHappy;
 import codeCapriccio.linkedList.ListNode;
 import codeCapriccio.linkedList.MyLinkedList;
 import codeCapriccio.stackAndQueue.IsValid;
+import codeCapriccio.string.ReverseStr;
 
 public class Main implements IsValid {
     public static void main(String[] args){
-        IsHappy isHappy = new IsHappy();
-        boolean happy = isHappy.isHappy(19);
+        String s = "abcdefg";
+        ReverseStr reverseStr = new ReverseStr();
+        reverseStr.reverseStr(s, 2);
     }
 }

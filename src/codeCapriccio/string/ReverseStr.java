@@ -1,39 +1,40 @@
 package codeCapriccio.string;
 
-public interface ReverseStr {
-    /*
-    * 题目描述（541. 反转字符串 II）：给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。
-    * 解题思路：先算有个2k，把这些fold给翻转完，然后再处理尾巴
-    * 时间复杂度：O（n）
-    * */
-    default String reverseStr(String s, int k) {
-        char[] str = s.toCharArray();
-        int fold = str.length / (2 * k);
-        int tail = str.length % (2 * k);
-        int start = 0;
-        char temp;
-        for(int i = 0; i < fold; i++){
-            start = i * k * 2;
-            for(int l = start, r = start + k - 1; l < r; l++, r--){
-                temp = str[l];
-                str[l] = str[r];
-                str[r] = temp;
-            }
+/*
+* leetcode541. 反转字符串 II:
+*   给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。
+*   如果剩余字符少于 k 个，则将剩余字符全部反转。
+*   如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+* 解题思路：
+*/
+public class ReverseStr {
+    public String reverseStr(String s, int k) {
+        char[] chars = s.toCharArray();
+        int fold = chars.length / (2 * k);
+        int remain = chars.length % (2 * k);
+        // 翻转前k折
+        for (int i = 0; i < fold; i++) {
+            reverse(chars, i*k*2, i*2*k + k -1);
         }
-        if(tail < k){
-            for(int i = fold * 2 * k, j = str.length - 1; i < j; i++, j--){
-                temp = str[i];
-                str[i] = str[j];
-                str[j] = temp;
-            }
-        }else {
-            for(int i = fold * 2 * k, j = i + k - 1; i < j; i++, j--){
-                temp = str[i];
-                str[i] = str[j];
-                str[j] = temp;
-            }
-        }
+        if(remain >= k)
+            // 剩下如果大于k，只翻转前k个
+            reverse(chars, fold*2*k, fold*2*k + k -1);
+        else
+            // 小于k，翻转全部
+            reverse(chars, fold*2*k, chars.length-1);
 
-        return new String(str);
+        return new String(chars);
+
+    }
+
+    public void reverse(char[] s, int left, int right){
+        char temp;
+        while(left < right){
+            temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+        }
     }
 }
