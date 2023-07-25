@@ -1,14 +1,15 @@
 package codeCapriccio.string;
 
-public interface RepeatedSubstringPattern {
-    /*
-    * 题目描述（leetcode459. 重复的子字符串）：给定一个非空的字符串 s ，检查是否可以通过由它的一个子串重复多次构成。
-    *   如：“abab”true，“aba”false
-    * 解题思路：
-    *   1. 暴力法：这个子串肯定是从下标为0开是子串，且子串长度肯定<=字符串长度的一半,故用两个for循环去找（O(n^2)）
-    *   2. 移动匹配法：简单说就是如果一个字符串s可由多个子串重复构成，则s'=s+s,s'中一定会出现s
-    *   3. kmp法，见代码随想录。
-    * */
+/*
+* leetcode459. 重复的子字符串:
+*   给定一个非空的字符串 s ，检查是否可以通过由它的一个子串重复多次构成。
+*   如：“abab”true，“aba”false
+* 解题思路：
+*   1. 暴力法：这个子串肯定是从下标为0开是子串，且子串长度肯定<=字符串长度的一半,故用两个for循环去找（O(n^2)）
+*   2. 移动匹配法：简单说就是如果一个字符串s可由多个子串重复构成，则s'=s+s,s'中一定会出现s
+*   3. kmp法，见代码随想录。
+*/
+public class RepeatedSubstringPattern {
     // 1. 暴力法
 //    default boolean repeatedSubstringPattern(String s) {
 //        for(int i = s.length() / 2; i > 0; i--){
@@ -28,7 +29,7 @@ public interface RepeatedSubstringPattern {
 //        return false;
 //    }
     // 2. 移动匹配法  （这个竟然还没暴力法快）
-    default boolean repeatedSubstringPattern(String s) {
+    public boolean repeatedSubstringPattern(String s) {
         String ss = s + s;
         if(ss.substring(1, ss.length()-1).contains(s)){
             return true;
