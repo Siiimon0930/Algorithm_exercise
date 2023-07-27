@@ -1,35 +1,38 @@
 package codeCapriccio.stackAndQueue;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.regex.Pattern;
+import java.util.Stack;
 
-
-public interface EvalRPN {
-    /*
-    * 题目描述（leetcode150. 逆波兰表达式求值:输入：tokens = ["2","1","+","3","*"] 输出：9 解释：该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9）
-    * 解题思路：碰到数字就入栈，碰到运算符就出栈两个数字进行计算，而后讲计算结果入栈
-    * */
-    default int evalRPN(String[] tokens) {
-        Deque<Integer> stack = new LinkedList();
-        for (String s : tokens) {
-            if ("+".equals(s)) {        // leetcode 内置jdk的问题，不能使用==判断字符串是否相等
-                stack.push(stack.pop() + stack.pop());      // 注意 - 和/ 需要特殊处理
-            } else if ("-".equals(s)) {
-                stack.push(-stack.pop() + stack.pop());
-            } else if ("*".equals(s)) {
-                stack.push(stack.pop() * stack.pop());
-            } else if ("/".equals(s)) {
-                int temp1 = stack.pop();
-                int temp2 = stack.pop();
-                stack.push(temp2 / temp1);
-            } else {
-                stack.push(Integer.valueOf(s));
-            }
+/*
+* leetcode150. 逆波兰表达式求值:
+*   输入：tokens = ["2","1","+","3","*"]
+*   输出：9
+*   解释：该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9
+* 解题思路：使用栈，数字push，运算符pop两个数运算后再push
+*   注意：应该使用equals方法判断，不使用==
+*/
+public class EvalRPN {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < tokens.length; i++) {
+            if(tokens[i].equals("+")){
+                Integer right = stack.pop();
+                Integer left = stack.pop();
+                stack.push(left + right);
+            } else if(tokens[i].equals("-")){
+                Integer right = stack.pop();
+                Integer left = stack.pop();
+                stack.push(left - right);
+            } else if(tokens[i].equals("*")){
+                Integer right = stack.pop();
+                Integer left = stack.pop();
+                stack.push(left * right);
+            } else if(tokens[i].equals("/")){
+                Integer right = stack.pop();
+                Integer left = stack.pop();
+                stack.push(left / right);
+            } else
+                stack.push(Integer.valueOf(tokens[i]));
         }
         return stack.pop();
     }
-
-
-
 }
