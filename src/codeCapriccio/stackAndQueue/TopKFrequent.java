@@ -1,83 +1,57 @@
 package codeCapriccio.stackAndQueue;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public interface TopKFrequent {
-    /*
-    * 题目描述（leetcode347. 前 K 个高频元素）：
-    *   给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。
-    * 解题思路：
-    *   1. 直觉(可通过，但太暴力了)：用一个map，key为nums中的元素，value为元素的频次，而后将这个map按照value进行排序（时间复杂度O（排序算法））
-    *   2. 小顶堆法：先用一个map统计数组元素的出现频率，而后用一个小顶堆遍历一遍map，小顶堆存储元素为<item, frequency>，比较根据为frequency 时间复杂度O(nlogk)，logk为堆的树高
-    * */
-
-    // 1. 暴力法
-//    default int[] topKFrequent(int[] nums, int k) {
-//        Map<Integer, Integer> record = new HashMap<>();
-//        for(int i = 0; i < nums.length; i++){
-//            record.put(nums[i], record.getOrDefault(nums[i], 0) + 1);
-//        }
-//        List<Integer> frequency = new ArrayList<>(record.values());
-//        frequency.sort((a, b) -> b - a);
-//        List<Integer> res = new ArrayList<>();
-//        for(int i = 0; i < k; i++){
-//            // 这层循环是傻瓜式遍历法的通过value去找key
-//            for(Map.Entry<Integer, Integer> pair: record.entrySet()){
-//                // !res.contains(pair.getKey())是防止有频率相同的不同数字
-//                if(pair.getValue() == frequency.get(i) && !res.contains(pair.getKey())){
-//                     res.add(pair.getKey());
-//                    break;
-//                }
-//            }
-//        }
-//        // 这里是List<Integer> 转为 int[]
-//        return res.stream()
-//                .mapToInt(Integer::intValue)
-//                .toArray();
-//    }
-
-    // 2. 小顶堆法
-    default int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> record = new HashMap<>();
-        for(int i = 0; i < nums.length; i++){
-            record.put(nums[i], record.getOrDefault(nums[i], 0) + 1);
+/*
+* leetcode347. 前 K 个高频元素:
+*   给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。
+* 解题思路：
+*   1. 使用map存储，而后对整个map根据频率排序，时间复杂度主要在排序，O(nlogn)
+*   2. 同样使用map存储，排序使用一个大小为k的小顶堆进行排序，时间复度O(nlogk)
+*/
+public class TopKFrequent {
+    // 1.O(nlogn)
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
         }
-
-        // 通过优先级队列创建小顶堆
-        PriorityQueue<Map.Entry<Integer, Integer>> que = new PriorityQueue<>((pair1, pair2) -> pair1.getValue() - pair2.getValue());
-        for(Map.Entry<Integer, Integer> pair: record.entrySet()){
-            if(que.size() < k)
-                que.add(pair);
-            else{
-                if(pair.getValue() > que.peek().getValue()){    // 当前元素的频率大于堆顶元素的频率时 弹出堆顶并将当前元素加入堆中
-                    que.poll();
-                    que.add(pair);
+        int[] result = map.entrySet()
+                .stream()
+                .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
+                .limit(k)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList())
+                .stream().mapToInt(Integer::intValue)
+                .toArray();
+        return result;
+    }
+    // 2.O(nlogk)
+    public int[] topKFrequent2(int[] nums, int k) {
+        Map<Integer,Integer> map = new HashMap<>();//key为数组元素值,val为对应出现次数
+        for(int num:nums){
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+        //在优先队列中存储二元组(num,cnt),cnt表示元素值num在数组中的出现次数
+        //出现次数按从队头到队尾的顺序是从小到大排,出现次数最低的在队头(相当于小顶堆)
+        PriorityQueue<int[]> pq = new PriorityQueue<>((pair1,pair2)->pair1[1]-pair2[1]);
+        for(Map.Entry<Integer,Integer> entry:map.entrySet()){//小顶堆只需要维持k个元素有序
+            if(pq.size()<k){//小顶堆元素个数小于k个时直接加
+                pq.add(new int[]{entry.getKey(),entry.getValue()});
+            }else{
+                if(entry.getValue()>pq.peek()[1]){//当前元素出现次数大于小顶堆的根结点(这k个元素中出现次数最少的那个)
+                    pq.poll();//弹出队头(小顶堆的根结点),即把堆里出现次数最少的那个删除,留下的就是出现次数多的了
+                    pq.add(new int[]{entry.getKey(),entry.getValue()});
                 }
             }
         }
-        int[] res = new int[k];
-        for(int i = k-1; i >= 0; i--){ //依次弹出小顶堆,先弹出的是堆的根,出现次数少,后面弹出的出现次数多
-            res[i] = que.poll().getKey();
+        int[] ans = new int[k];
+        for(int i=k-1;i>=0;i--){//依次弹出小顶堆,先弹出的是堆的根,出现次数少,后面弹出的出现次数多
+            ans[i] = pq.poll()[0];
         }
-        return res;
+        return ans;
     }
-
-//    // 3. 大顶堆法(O(nlogn))
-//    default int[] topKFrequent(int[] nums, int k) {
-//        Map<Integer, Integer> record = new HashMap<>();
-//        for(int i = 0; i < nums.length; i++){
-//            record.put(nums[i], record.getOrDefault(nums[i], 0) + 1);
-//        }
-//
-//        // 通过优先级队列创建小顶堆
-//        PriorityQueue<Map.Entry<Integer, Integer>> que = new PriorityQueue<>((pair1, pair2) -> pair2.getValue() - pair1.getValue());
-//        for(Map.Entry<Integer, Integer> pair: record.entrySet()){
-//                que.add(pair);
-//        }
-//        int[] res = new int[k];
-//        for(int i = 0; i < k; i++){ //依次弹出小顶堆,先弹出的是堆的根,出现次数少,后面弹出的出现次数多
-//            res[i] = que.poll().getKey();
-//        }
-//        return res;
-//    }
 }
+
+
