@@ -2,43 +2,42 @@ package codeCapriccio.binaryTree;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.Stack;
 
-public interface MaxDepth {
-    /*
-    * 题意（104. 二叉树的最大深度）
-    * 解题思路：
-    *   1. 递归法
-    *   2. 迭代法
-    * */
-
-    // 1. 递归法
-    default int maxDepth(TreeNode root) {
-        int res = 0;
+/*
+* leetcode104. 二叉树的最大深度:给定一个二叉树 root ，返回其最大深度。
+* 二叉树的 最大深度 是指从根节点到最远叶子节点的最长路径上的节点数。
+* 解题思路：1.层序-层数 2.递归后序-max（左，右）+ 1
+*/
+public class MaxDepth {
+    public int maxDepth(TreeNode root) {
+        int count = 0;
         if(root == null)
-            return 0;
-        else
-            return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+            return count;
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode temp = queue.poll();
+                if(temp.left != null)
+                    queue.offer(temp.left);
+                if (temp.right != null)
+                    queue.offer(temp.right);
+            }
+            count++;
+        }
+        return count;
     }
 
-    // 2. 迭代法
-    default int maxDepth2(TreeNode root){
-        int res = 0;
+    public int maxDepth2(TreeNode root) {
+        int count = 0;
         if(root == null)
-            return res;
-        Queue<TreeNode> que = new ArrayDeque<>();
-        que.add(root);
-        while(!que.isEmpty()){
-            res++;
-            int size = que.size();                  // 单独设size变量是必要的，不能放在循环条件里，否则每次循环的size是个新值
-            for(int i = 0; i < size; i++){
-                TreeNode temp = que.poll();
-                if(temp.left !=null)
-                    que.add(temp.left);
-                if(temp.right != null)
-                    que.add(temp.right);
-            }
-        }
-        return res;
+            return count;
+
+        int left = maxDepth2(root.left);
+        int right = maxDepth2(root.right);
+
+        int depth = Math.max(left, right) + 1;
+        return depth;
     }
 }
