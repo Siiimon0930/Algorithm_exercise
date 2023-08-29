@@ -1,67 +1,94 @@
 package codeCapriccio.binaryTree;
 
-import com.sun.xml.internal.bind.v2.TODO;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
-import java.util.*;
+// 迭代遍历
+public class IterativeTraversal {
 
-public interface IterativeTraversal {
-    //TODO: 迭代遍历：前中后
-
-    // 1. 前序迭代遍历
-    default List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        if(root == null)
-            return res;
+    /**
+     * decription: 迭代先序遍历
+     * @param root
+     * @return java.util.List<java.lang.Integer>
+     */
+    public List<Integer> preorderIterTraversal(TreeNode root){
+        List<Integer> result = new ArrayList<>();
+        if(root == null){
+            // 边界条件，判空
+            return result;
+        }
         Stack<TreeNode> stack = new Stack<>();
+        TreeNode temp;
         stack.push(root);
-        while(!stack.empty()){
-            TreeNode temp = stack.pop();
-            res.add(temp.val);
+        while(!stack.isEmpty()){
+            temp = stack.pop();
+            result.add(temp.val);
+            // 遍历顺序要求 中左右，所以先push右孩子，pop才能先pop左孩子
             if(temp.right != null)
                 stack.push(temp.right);
             if(temp.left != null)
                 stack.push(temp.left);
         }
-        return res;
+        return result;
     }
 
-
-    // 2. 中序迭代遍历：与前序和后序写法不同
-    default List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+    /**
+     * decription: 中序迭代遍历
+     * @param root
+     * @return java.util.List<java.lang.Integer>
+     */
+    public List<Integer> inorderIterTraversal(TreeNode root){
+        List<Integer> result = new ArrayList<>();
+        if(root == null){
+            // 边界条件，判空
+            return result;
+        }
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode cur = root;
-        while(cur != null || !stack.empty()){
-            if(cur != null){
-                stack.push(cur);
-                cur = cur.left;
+        TreeNode temp = root;
+        while(temp != null || !stack.isEmpty()){
+            if (temp != null){
+                // 当指针当前节点不为空时，将该节点入栈，并将指针指向当前节点的左孩子
+                stack.push(temp);
+                temp = temp.left;
             }else {
-                cur = stack.pop();
-                res.add(cur.val);
-                cur = cur.right;
+                // 当指针指向空时，pop出栈顶元素进行遍历，而后将指针指向右孩子
+                temp = stack.pop();
+                result.add(temp.val);
+                temp = temp.right;
             }
         }
-        return res;
+        return result;
     }
 
-    // 3. 后序迭代遍历
-    default List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        if(root == null)
-            return res;
+
+    /**
+     * decription: 后续迭代遍历
+     * @param root
+     * @return java.util.List<java.lang.Integer>
+     */
+    public List<Integer> postorderIterTraversal(TreeNode root){
+        List<Integer> result = new ArrayList<>();
+        if(root == null){
+            // 边界条件，判空
+            return result;
+        }
         Stack<TreeNode> stack = new Stack<>();
+        TreeNode temp;
         stack.push(root);
-        while(!stack.empty()){
-            TreeNode temp = stack.pop();
-            res.add(temp.val);
+        while(!stack.isEmpty()){
+            temp = stack.pop();
+            result.add(temp.val);
+            // 遍历顺序要求 左右中 = 中右左 + reverse
             if(temp.left != null)
                 stack.push(temp.left);
             if(temp.right != null)
                 stack.push(temp.right);
         }
-        Collections.reverse(res);
-        return res;
+        // 翻转结果
+        Collections.reverse(result);
+        return result;
     }
 
-    // 4. 统一风格代码见代码随想录
 }
