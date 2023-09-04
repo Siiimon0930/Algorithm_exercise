@@ -21,4 +21,17 @@ public class SortedArrayToBST {
         root.right = sortedArrayToBST(rightNums);
         return root;
     }
+
+    // -----------------------第二遍-------------------------
+    public TreeNode sortedArrayToBST2(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return null;
+        int midIndex = nums.length / 2;
+        int[] leftNums = Arrays.copyOfRange(nums, 0, midIndex);
+        int[] rightNums = Arrays.copyOfRange(nums, midIndex+1, nums.length);
+        TreeNode root = new TreeNode(nums[midIndex]);
+        root.left = sortedArrayToBST2(leftNums);
+        root.right = sortedArrayToBST2(rightNums);
+        return root;
+    }
 }
