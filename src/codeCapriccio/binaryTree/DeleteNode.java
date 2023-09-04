@@ -19,7 +19,7 @@ public class DeleteNode {
                 return null;
             else if(root.left == null && root.right != null)    // 2.左为空，右不为空直接返回右
                 return root.right;
-            else if(root.left != null && root.right == null)            // 3.左右为空，左不为空直接返回左
+            else if(root.left != null && root.right == null)            // 3.右为空，左不为空直接返回左
                 return root.left;
             else{
                 TreeNode rightMin = root.right;
@@ -33,6 +33,39 @@ public class DeleteNode {
         }else{
             root.right = deleteNode(root.right, key);
         }
+        return root;
+    }
+
+    // ----------------------------第二遍---------------------------
+    public TreeNode deleteNode2(TreeNode root, int key) {
+        if(root == null)
+            return null;
+        if(root.val == key){
+            if(root.left == null && root.right == null)
+                return null;
+            if(root.left != null){
+                TreeNode newRoot = root.left;
+                // 找到左子树最右边的节点，把root的右子树挂到其下
+                while(newRoot.right != null){
+                    newRoot = newRoot.right;
+                }
+                newRoot.right = root.right;
+                return root.left;
+            }
+            else if(root.right != null){
+                TreeNode newRoot = root.right;
+                // 找到右子树最左边的节点
+                while(newRoot.left != null){
+                    newRoot = newRoot.left;
+                }
+                newRoot.left = root.left;
+                return root.right;
+            }
+        }
+        if(root.val < key)
+            root.right = deleteNode2(root.right, key);
+        if (root.val > key)
+            root.left = deleteNode2(root.left, key);
         return root;
     }
 
