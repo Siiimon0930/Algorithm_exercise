@@ -54,4 +54,21 @@ public class TrimBST {
             return trimBST2(root.left, low, high);
         }
     }
+
+    // -------------------------第二遍------------------------
+    public TreeNode trimBST3(TreeNode root, int low, int high) {
+        if(root == null)
+            return null;
+        if(root.val < low){
+            root = trimBST3(root.right, low, high);
+            return root;
+        }
+        if (root.val > high){
+            root = trimBST3(root.left, low, high);
+            return root;
+        }
+        root.left = trimBST3(root.left, low, high);
+        root.right = trimBST3(root.right, low, high);
+        return root;
+    }
 }
