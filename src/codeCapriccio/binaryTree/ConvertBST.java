@@ -28,4 +28,16 @@ public class ConvertBST {
         root.val = curSum;
         traversal(root.left);
     }
+
+    // ------------------------第二遍----------------------------
+    // 思路，中序遍历，右中左
+    public TreeNode convertBST2(TreeNode root) {
+        if (root == null)
+            return root;
+        root.right = convertBST(root.right);
+        curSum += root.val;
+        root.val = curSum;
+        root.left = convertBST(root.left);
+        return root;
+    }
 }
