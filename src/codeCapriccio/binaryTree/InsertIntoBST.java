@@ -53,4 +53,31 @@ public class InsertIntoBST {
         return root;
     }
 
+
+    // ----------------------------第二遍----------------------------
+    public TreeNode insertIntoBST3(TreeNode root, int val) {
+        TreeNode newNode = new TreeNode(val);
+        if (root == null)
+            return newNode;
+        TreeNode cur = root;
+        TreeNode pre = null;
+        while(cur != null){
+            if(cur.val == val)      // 发现和val相等的节点直接return，不插入
+                return root;
+            else if(cur.val < val){
+                pre = cur;
+                cur = cur.right;
+            }else{
+                pre = cur;
+                cur = cur.left;
+            }
+        }
+        if(pre.val < val)
+            pre.right = newNode;
+        else
+            pre.left = newNode;
+
+        return root;
+    }
+
 }
