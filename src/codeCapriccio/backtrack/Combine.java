@@ -54,4 +54,26 @@ public class Combine {
         }
     }
 
+    //---------------------------第二遍---------------------------
+    List<List<Integer>> result = new ArrayList<>();
+    LinkedList<Integer> numCombine = new LinkedList<>();
+
+    private void backtrack(int n, int k, int startIndex){
+        if(numCombine.size() == k){
+            result.add(new LinkedList<>(numCombine));
+            return;
+        }
+
+        for (int i = startIndex; i <= n; i++) {
+            numCombine.add(i);
+            backtrack(n, k, i+1);
+            numCombine.removeLast();
+        }
+    }
+
+    public List<List<Integer>> combine2(int n, int k){
+        backtrack(n, k ,1);
+        return result;
+    }
+
 }
