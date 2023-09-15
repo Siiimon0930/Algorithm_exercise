@@ -1,5 +1,6 @@
 package codeCapriccio.backtrack;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -52,5 +53,37 @@ public class CombinationSum2 {
             sum -= candidates[i];
             path.removeLast();
         }
+    }
+
+    // -----------------------第二遍----------------------------
+    private List<List<Integer>> result = new ArrayList<>();
+    private LinkedList<Integer> combine = new LinkedList<>();
+    private int combineSum = 0;
+
+    public void backTrack(int[] candidates, int target, int startIndex){
+        if(combineSum == target){
+            result.add(new ArrayList<>(combine));
+            return;
+        }
+        if(combineSum > target)
+            return;
+
+        for (int i = startIndex; i < candidates.length && candidates[i] + combineSum <= target ; i++) {
+            // 同一层去重，i > startIndex是保证在同一层去重的关键，如果没这个限制则子层也会被去重。
+            if(i > startIndex && candidates[i] == candidates[i-1])
+                continue;
+            combineSum += candidates[i];
+            combine.add(candidates[i]);
+            backTrack(candidates, target, i+1);
+            combineSum -= candidates[i];
+            combine.removeLast();
+        }
+    }
+
+    public List<List<Integer>> combinationSum2_2(int[] candidates, int target){
+        Arrays.sort(candidates);
+        result.clear();
+        backTrack(candidates, target, 0);
+        return result;
     }
 }
