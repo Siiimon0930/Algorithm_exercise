@@ -1,8 +1,6 @@
 package codeCapriccio.backtrack;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Combine {
     /*
@@ -64,7 +62,7 @@ public class Combine {
             return;
         }
 
-        for (int i = startIndex; i <= n; i++) {
+        for (int i = startIndex; i <= n - (k - numCombine.size()) + 1; i++) {
             numCombine.add(i);
             backtrack(n, k, i+1);
             numCombine.removeLast();
