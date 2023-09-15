@@ -1,6 +1,7 @@
 package codeCapriccio.backtrack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,5 +38,32 @@ public class CombinationSum {
             path.removeLast();
             target += candidates[i];
         }
+    }
+
+    // -----------------第二遍-----------------
+    private int sum = 0;
+    private List<List<Integer>> result = new ArrayList<>();
+    private LinkedList<Integer> combine = new LinkedList<>();
+
+    public void backTrack(int[] candidates, int target, int startIndex){
+        if(sum == target){
+            result.add(new ArrayList<>(combine));
+            return;
+        }
+        if(sum > target)
+            return;
+        for (int i = startIndex; i < candidates.length; i++) {
+            sum += candidates[i];
+            combine.add(candidates[i]);
+            backTrack(candidates, target, i);
+            sum -= candidates[i];
+            combine.removeLast();
+
+        }
+    }
+    public List<List<Integer>> combinationSum_2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        backTrack(candidates, target, 0);
+        return result;
     }
 }
