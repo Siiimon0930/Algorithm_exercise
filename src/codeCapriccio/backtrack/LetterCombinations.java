@@ -43,4 +43,52 @@ public class LetterCombinations {
             }
         }
     }
+
+    // -------------------第二遍--------------------
+    private Map<Character, String> digitMap = new HashMap<>();
+
+    private List<String> result = new ArrayList<>();
+    private StringBuilder combination = new StringBuilder();
+
+    public void backTrack(char[] digits, int startIndex){
+        if(combination.length() == digits.length){
+            result.add(combination.toString());
+            return;
+        }
+        for(int i = startIndex; i < digits.length; i++){
+            char[] mapValue = digitMap.get(digits[i]).toCharArray();
+            for (int j = 0; j < mapValue.length; j++) {
+                combination.append(mapValue[j]);
+                backTrack(digits, i+1);
+                combination.deleteCharAt(combination.length() - 1);
+            }
+        }
+    }
+
+    public List<String> letterCombinations_2(String digits) {
+        char[] chars = digits.toCharArray();
+        if(chars.length == 0 || chars == null)
+            return result;
+        for (char c : chars) {
+            if(c == '2')
+                digitMap.put('2', "abc");
+            if(c == '3')
+                digitMap.put('3', "def");
+            if(c == '4')
+                digitMap.put('4', "ghi");
+            if(c == '5')
+                digitMap.put('5', "jkl");
+            if(c == '6')
+                digitMap.put('6', "mno");
+            if(c == '7')
+                digitMap.put('7', "pqrs");
+            if(c == '8')
+                digitMap.put('8', "tuv");
+            if(c == '9')
+                digitMap.put('9', "wxyz");
+        }
+
+        backTrack(chars, 0);
+        return result;
+    }
 }
