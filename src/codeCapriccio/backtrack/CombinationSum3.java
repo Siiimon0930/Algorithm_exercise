@@ -40,4 +40,31 @@ public class CombinationSum3 {
         }
 
     }
+
+    // ----------------------第二遍-------------------------
+    int getCombineSum(List<Integer> combine){
+        int sum = 0;
+        for (Integer integer : combine) {
+            sum += integer.intValue();
+        }
+        return sum;
+    }
+    public void backTrack(int k, int n, int startIndex){
+        if(combine.size() == k){
+            if(getCombineSum(combine) == n)
+                res.add(new LinkedList<>(combine));
+            return;
+        }
+
+        for (int i = startIndex; i <= 9 - (k - combine.size()) + 1; i++) {
+            combine.add(i);
+            backTrack(k, n, i+1);
+            combine.removeLast();
+        }
+    }
+    public List<List<Integer>> combinationSum3_2(int k, int n) {
+        backTrack(k, n, 1);
+        return res;
+    }
+
 }
