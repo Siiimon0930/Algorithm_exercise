@@ -20,7 +20,8 @@ public class LongestConsecutiveSequence {
         }
         int result = 1;
         for(int num: nums){
-            // 当前元素为num，如果num+1不存在则无需探究这个元素，如果num-1存在，则以num为起始肯定短于num-1为起始，故也跳过
+            // 当前元素为num，如果num+1不存在则无需探究这个元素
+            // 如果num-1存在，则以num为起始肯定短于num-1为起始，故也跳过，如果不跳过就达不到O(n)
             if(!set.contains(num+1) || set.contains(num-1)){
                 continue;
             }else {
